@@ -3,52 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>file transfer</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f4f4f4;
-        }
-        .container {
-            text-align: center;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            margin-bottom: 20px;
-        }
-        input[type="file"] {
-            margin: 10px 0;
-        }
-        button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-            border-radius: 4px;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-    </style>
+    <title>File Transfer</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <h1>file transfer</h1>
-        <form action="/upload" method="post" enctype="multipart/form-data">
-            <input type="file" name="file" required>
-            <br>
-            <button type="submit">upload/still developing</button>
-        </form>
+    <div class="chat-container">
+        <div class="chat-box">
+            <div class="message">
+                <span class="user">User1:</span>
+                <span class="text">Welcome to the file transfer service!</span>
+            </div>
+            <div class="message">
+                <span class="user">User2:</span>
+                <span class="text">You can upload your files here.</span>
+            </div>
+        </div>
+        <div class="upload-section">
+            <input type="file" id="fileInput">
+            <button onclick="uploadFile()">Upload</button>
+        </div>
     </div>
+
+    <script>
+        function uploadFile() {
+            const fileInput = document.getElementById('fileInput');
+            const file = fileInput.files[0];
+            if (file) {
+                // Add your file upload logic here
+                alert('File uploaded: ' + file.name);
+            } else {
+                alert('No file selected.');
+            }
+        }
+    </script>
 </body>
 </html>
