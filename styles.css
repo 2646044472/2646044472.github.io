@@ -1,0 +1,50 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.chat-container {
+    border: 1px solid #ccc;
+    background-color: #fff;
+    width: 400px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.chat-box {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+.message {
+    margin-bottom: 10px;
+}
+
+.user {
+    font-weight: bold;
+    color: #333;
+}
+
+.text {
+    background-color: #e5e5e5;
+    border-radius: 5px;
+    padding: 5px 10px;
+    display: inline-block;
+    margin-left: 5px;
+}
+
+.upload-section {
+    display: flex;
+    justify-content: space-between;
+}
+
+#fileInput {
+    flex: 1;
+    margin-right: 10px;
+}
