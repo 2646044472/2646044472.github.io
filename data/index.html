@@ -16,6 +16,7 @@
                     <tr>
                         <th>编号</th>
                         <th>提交时间</th>
+                        <th>操作</th>
                     </tr>
                 </thead>
                 <tbody id="student-data"></tbody>
@@ -27,11 +28,26 @@
                     <tr>
                         <th>编号</th>
                         <th>提交时间</th>
+                        <th>操作</th>
                     </tr>
                 </thead>
                 <tbody id="courier-data"></tbody>
             </table>
         </div>
+
+        <h2>新增数据</h2>
+        <form id="add-data-form">
+            <label for="role">角色：</label>
+            <select id="role">
+                <option value="student">学生</option>
+                <option value="courier">外卖员</option>
+            </select>
+            
+            <label for="code">编号：</label>
+            <input type="text" id="code" required>
+
+            <button type="submit">添加</button>
+        </form>
 
         <a href="../index.html" class="back-btn">← 返回首页</a>
     </div>
