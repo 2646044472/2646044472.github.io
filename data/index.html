@@ -3,29 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>数据查看</title>
+    <title>实时数据监控</title>
     <link rel="stylesheet" href="../styles.css">
+    <style>
+        .refresh-info {
+            color: #666;
+            font-size: 0.9em;
+            margin: 10px 0;
+            text-align: right;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <h1>📊 数据库实时监控</h1>
-        
-        <section>
-            <h2>外卖员记录 <span id="courier-counter" class="counter">0 条记录</span></h2>
-            <ul id="courier-data"></ul>
-        </section>
+        <h1>📊 实时数据看板</h1>
+        <div class="refresh-info">数据每3秒自动刷新</div>
 
-        <section>
-            <h2>学生记录 <span id="student-counter" class="counter">0 条记录</span></h2>
-            <ul id="student-data"></ul>
-        </section>
+        <div class="data-section">
+            <h2>🚴 外卖员记录 <span id="courier-counter" class="counter">加载中...</span></h2>
+            <ul id="courier-data" class="data-list"></ul>
+        </div>
 
-        <a href="../" class="view-data">← 返回提交页面</a>
+        <div class="data-section">
+            <h2>🎓 学生记录 <span id="student-counter" class="counter">加载中...</span></h2>
+            <ul id="student-data" class="data-list"></ul>
+        </div>
+
+        <div class="footer-actions">
+            <button onclick="location.reload()" class="refresh-btn">🔄 手动刷新</button>
+            <a href="../" class="home-link">🏠 返回主页</a>
+        </div>
     </div>
 
-    <!-- 使用兼容版本SDK -->
+    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
-    <script src="../script.js"></script>
+    
+    <!-- 数据加载脚本 -->
+    <script src="data.js"></script>
 </body>
 </html>
