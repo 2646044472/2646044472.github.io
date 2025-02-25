@@ -14,10 +14,10 @@ if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
 }
 
-// 🔥 确保 Firestore 初始化在 Firebase 之后
+// 🔥 Firestore 数据库
 const db = firebase.firestore();
 
-// 选择身份，显示输入框
+// 选择身份，显示不同的输入框
 function chooseRole(role) {
     document.getElementById('courier-section').classList.toggle('hidden', role !== 'courier');
     document.getElementById('student-section').classList.toggle('hidden', role !== 'student');
