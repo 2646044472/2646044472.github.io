@@ -13,24 +13,14 @@
             <button class="role-btn" onclick="chooseRole('courier')">我是外卖员</button>
             <button class="role-btn" onclick="chooseRole('student')">我是学生</button>
         </div>
-
-        <div id="courier-section" class="input-section hidden">
-            <h2>外卖员编号</h2>
-            <input type="text" id="courier-code" placeholder="请输入您的编号">
-            <button class="submit-btn" onclick="saveCode('courier')">提交</button>
-        </div>
-
-        <div id="student-section" class="input-section hidden">
-            <h2>学生编号</h2>
-            <input type="text" id="student-code" placeholder="请输入您的编号">
-            <button class="submit-btn" onclick="saveCode('student')">提交</button>
-        </div>
-
-        <a href="data/" class="view-data">📊 查看数据</a>
+        <a href="data/index.html" class="view-data">📊 查看数据</a>
     </div>
 
+    <!-- 🔥 先加载 Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+
+    <!-- 🔥 再加载 script.js，确保 Firebase 先加载 -->
     <script src="script.js"></script>
 </body>
 </html>

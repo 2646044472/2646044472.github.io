@@ -1,4 +1,4 @@
-// 🔥 初始化 Firebase
+// 🔥 Firebase 配置
 const firebaseConfig = {
     apiKey: "你的API密钥",
     authDomain: "你的项目ID.firebaseapp.com",
@@ -8,15 +8,15 @@ const firebaseConfig = {
     appId: "你的App ID"
 };
 
-// 只有在 Firebase 没有初始化时才初始化
+// 🔥 只有在 Firebase 没有初始化时才初始化
 if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
 }
 
-// 🔥 初始化 Firestore
+// 🔥 确保 Firestore 初始化在 Firebase 之后
 const db = firebase.firestore();
 
-// 选择角色，显示不同输入框
+// 选择身份，显示输入框
 function chooseRole(role) {
     document.getElementById('courier-section').classList.toggle('hidden', role !== 'courier');
     document.getElementById('student-section').classList.toggle('hidden', role !== 'student');
