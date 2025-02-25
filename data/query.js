@@ -1,4 +1,4 @@
-// ✅ Firebase 配置
+// Firebase配置
 const firebaseConfig = {
     apiKey: "AIzaSyCVB3quR4-fjIFzwNc83DZfECYTBpXhO8E",
     authDomain: "utat-56b2e.firebaseapp.com",
@@ -9,107 +9,55 @@ const firebaseConfig = {
     measurementId: "G-8DXJE6E2YL"
 };
 
-// ✅ 初始化 Firebase
+// 初始化
 let db;
 try {
     firebase.initializeApp(firebaseConfig);
     db = firebase.firestore();
-    console.log("✅ Firebase 初始化成功");
 } catch (error) {
-    console.error("❌ 初始化失败:", error);
-    showGlobalError("数据库连接失败，请检查网络");
+    alert("初始化失败：" + error.message);
 }
 
-// ✅ 时间格式化函数
-function formatTimestamp(timestamp) {
-    if (!timestamp || !timestamp.toDate) {
-        console.warn("⏰ 时间戳格式错误:", timestamp);
-        return "未知时间";
-    }
-    return timestamp.toDate().toLocaleString('zh-CN', {
-        year: 'numeric', month: '2-digit', day: '2-digit',
-        hour: '2-digit', minute: '2-digit', second: '2-digit'
-    }) + ' CST';
+// 时间格式化
+function formatTime(timestamp) {
+    const date = timestamp?.toDate?.();
+    return date ? date.toLocaleString('zh-CN') : '时间无效';
 }
 
-// ✅ 数据加载器
-function setupRealtimeLoader(role) {
-    const listElement = document.getElementById(`${role}-data`);
-    const counterElement = document.getElementById(`${role}-counter`);
-    
-    if (!listElement || !counterElement) {
-        console.error(`❌ 元素未找到: ${role}`);
-        return;
-    }
+// 加载数据
+function setupDataLoader(role) {
+    const list = document.getElementById(`${role}-data`);
+    const counter = document.getElementById(`${role}-counter`);
 
-    // 初始状态
-    listElement.innerHTML = '<div class="loading">加载中...</div>';
-    
     return db.collection(role)
         .orderBy("timestamp", "desc")
-        .onSnapshot(
-            snapshot => {
-                listElement.innerHTML = '';
-
-                if (snapshot.empty) {
-                    listElement.innerHTML = '<div class="empty">暂无数据</div>';
-                    counterElement.textContent = '0 条记录';
-                    return;
-                }
-
-                snapshot.forEach(doc => {
-                    const data = doc.data();
-
-                    if (!data.timestamp) {
-                        console.warn(`⚠️ 文档 ${doc.id} 缺少 timestamp 字段`);
-                        return; // 跳过无效数据
-                    }
-
-                    const listItem = document.createElement('li');
-                    listItem.className = 'data-item';
-                    listItem.innerHTML = `
-                        <span class="code-badge">${data.code || "未知代码"}</span>
-                        <span class="timestamp">${formatTimestamp(data.timestamp)}</span>
-                    `;
-                    listElement.appendChild(listItem);
-                });
-
-                counterElement.textContent = `${snapshot.size} 条记录`;
-            },
-            error => {
-                console.error(`❌ ${role} 数据加载失败:`, error);
-                listElement.innerHTML = `
-                    <div class="error">
-                        ${error.code === 'permission-denied' 
-                            ? '⚠️ 访问被拒绝，请检查 Firestore 规则' 
-                            : '数据加载失败，请刷新重试'}
-                    </div>
+        .onSnapshot(snapshot => {
+            list.innerHTML = '';
+            snapshot.forEach(doc => {
+                const data = doc.data();
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <span>${data.code || '未知'}</span>
+                    <span>${formatTime(data.timestamp)}</span>
                 `;
-                counterElement.textContent = '加载失败';
-            }
-        );
+                list.appendChild(li);
+            });
+            counter.textContent = `(${snapshot.size}条)`;
+            document.getElementById('last-updated').textContent = new Date().toLocaleTimeString();
+        }, error => {
+            console.error(error);
+            list.innerHTML = `<li>加载失败：${error.message}</li>`;
+        });
 }
 
-// ✅ 全局错误处理
-function showGlobalError(message) {
-    document.body.innerHTML = `
-        <div class="error-container">
-            <h2>⚠️ 系统错误</h2>
-            <p>${message}</p>
-            <button onclick="location.reload()">重试</button>
-        </div>
-    `;
-}
-
-// ✅ 初始化加载
+// 初始化加载
 if (db) {
-    // 设置两个实时监听器
-    const unsubscribeCourier = setupRealtimeLoader('courier');
-    const unsubscribeStudent = setupRealtimeLoader('student');
-
-    // 页面卸载时清理监听
+    const unsubs = [
+        setupDataLoader('courier'),
+        setupDataLoader('student')
+    ];
+    
     window.addEventListener('beforeunload', () => {
-        unsubscribeCourier && unsubscribeCourier();
-        unsubscribeStudent && unsubscribeStudent();
+        unsubs.forEach(unsub => unsub());
     });
 }
