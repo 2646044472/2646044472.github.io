@@ -1,75 +1,153 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 20px;
-}
-
-.container {
-    max-width: 800px;
-    margin: auto;
-    background: white;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-h1, h2 {
+/* 基础设定 */
+:root {
+    --primary: #4f46e5;    /* 主色调 */
+    --secondary: #6366f1;  /* 辅色调 */
+    --accent: #a855f7;     /* 强调色 */
+    --light: #f8fafc;      /* 浅背景 */
+    --dark: #1e293b;       /* 深色文本 */
+  }
+  
+  /* 整体布局 */
+  body {
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    min-height: 100vh;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    line-height: 1.6;
+    color: var(--dark);
+  }
+  
+  .container {
+    max-width: 1200px;
+    padding: 2rem;
+    margin: 0 auto;
+  }
+  
+  /* 标题样式 */
+  h1 {
+    font-size: 2.5rem;
+    color: var(--dark);
     text-align: center;
-}
-
-.data-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-}
-
-.data-table th, .data-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: center;
-}
-
-.data-table th {
-    background-color: #f2f2f2;
-}
-
-button {
-    padding: 5px 10px;
-    margin: 2px;
-    border: none;
-    cursor: pointer;
-    border-radius: 3px;
-}
-
-button:hover {
-    opacity: 0.8;
-}
-
-.back-btn {
-    display: block;
-    text-align: center;
-    background: #007bff;
+    margin-bottom: 2.5rem;
+    position: relative;
+    padding-bottom: 0.5rem;
+  }
+  
+  h1::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: var(--primary);
+  }
+  
+  /* 按钮样式 */
+  .role-btn {
+    background: linear-gradient(45deg, var(--primary), var(--secondary));
     color: white;
-    padding: 10px;
-    border-radius: 5px;
-    text-decoration: none;
-    margin-top: 20px;
-}
-
-.back-btn:hover {
-    background: #0056b3;
-}
-
-form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    align-items: center;
-}
-
-input, select, button {
-    padding: 8px;
+    padding: 1.2rem 2.5rem;
+    border-radius: 25px;
+    border: none;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 0 1rem;
+  }
+  
+  .role-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(79, 70, 229, 0.3);
+  }
+  
+  /* 输入区域 */
+  .input-section {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    padding: 2rem;
+    margin: 2rem 0;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+    backdrop-filter: blur(10px);
+  }
+  
+  input[type="text"] {
     width: 100%;
-    max-width: 300px;
-}
+    padding: 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    transition: border-color 0.3s ease;
+  }
+  
+  input[type="text"]:focus {
+    border-color: var(--primary);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+  }
+  
+  /* 数据表格 */
+  .data-table {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+  }
+  
+  .data-table th {
+    background: linear-gradient(45deg, var(--primary), var(--secondary));
+    color: white;
+    padding: 1.2rem;
+  }
+  
+  .data-table td {
+    padding: 1rem;
+    border-bottom: 1px solid #f1f5f9;
+  }
+  
+  .data-table tr:hover {
+    background-color: #f8fafc;
+  }
+  
+  /* 交互动画 */
+  .submit-btn {
+    background: var(--accent);
+    color: white;
+    padding: 0.8rem 2rem;
+    border-radius: 8px;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  
+  .submit-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 6px rgba(168, 85, 247, 0.3);
+  }
+  
+  .view-data {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.8rem 1.5rem;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+  
+  .view-data:hover {
+    background: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  }
+  
+  /* 响应式设计 */
+  @media (max-width: 768px) {
+    .role-buttons {
+      flex-direction: column;
+      gap: 1rem;
+    }
+    
+    .role-btn {
+      width: 100%;
+      margin: 0;
+    }
+  }
