@@ -3,32 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>数据查看</title>
+    <title>数据查询</title>
     <link rel="stylesheet" href="../styles.css">
 </head>
 <body>
     <div class="container">
-        <h1>实时数据</h1>
-        <div class="refresh-info">最后更新：<span id="last-updated">-</span></div>
-
+        <h1>提交记录查询</h1>
         <div class="data-section">
-            <h2>外卖员记录 <span id="courier-counter">(加载中...)</span></h2>
-            <ul id="courier-data" class="data-list"></ul>
+            <h2>学生记录</h2>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>编号</th>
+                        <th>提交时间</th>
+                    </tr>
+                </thead>
+                <tbody id="student-data"></tbody>
+            </table>
+
+            <h2>外卖员记录</h2>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>编号</th>
+                        <th>提交时间</th>
+                    </tr>
+                </thead>
+                <tbody id="courier-data"></tbody>
+            </table>
         </div>
 
-        <div class="data-section">
-            <h2>学生记录 <span id="student-counter">(加载中...)</span></h2>
-            <ul id="student-data" class="data-list"></ul>
-        </div>
-
-        <div class="footer">
-            <button onclick="location.reload()">刷新</button>
-            <a href="../">返回主页</a>
-        </div>
+        <a href="../index.html" class="back-btn">← 返回首页</a>
     </div>
 
+    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
-    <script src="data.js"></script>
+    
+    <script src="query.js"></script>
 </body>
 </html>
