@@ -3,35 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>身份选择</title>
+    <title>Firebase 数据存储</title>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        // === 1️⃣ 导入 Firebase SDK ===
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+
+        // === 2️⃣ Firebase 配置（替换成你的 Firebase 配置） ===
+        const firebaseConfig = {
+            apiKey: "AIzaSyCVB3quR4-fjIFzwNc83DZfECYTBpXhO8E",
+            authDomain: "utat-56b2e.firebaseapp.com",
+            projectId: "utat-56b2e",
+            storageBucket: "utat-56b2e.firebasestorage.app",
+            messagingSenderId: "559148636842",
+            appId: "1:559148636842:web:7da66e4a8d8fe6debc0ed3",
+            measurementId: "G-8DXJE6E2YL"
+        };
+
+        // === 3️⃣ 初始化 Firebase 和 Firestore ===
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // === 4️⃣ 处理身份选择 ===
+        function chooseRole(role) {
+            document.getElementById('courier-section').classList.add('hidden');
+            document.getElementById('student-section').classList.add('hidden');
+
+            if (role === 'courier') {
+                document.getElementById('courier-section').classList.remove('hidden');
+            } else {
+                document.getElementById('student-section').classList.remove('hidden');
+            }
+        }
+
+        // === 5️⃣ 存储编号到 Firestore ===
+        async function saveCode(role) {
+            let code = role === 'courier' ? document.getElementById('courier-code').value : document.getElementById('student-code').value;
+
+            if (/^\d{4}$/.test(code)) {
+                try {
+                    await addDoc(collection(db, role), { code: code, timestamp: new Date() });
+                    alert(`编号 ${code} 已存入数据库！`);
+                    loadCodes(); // 重新加载数据
+                } catch (error) {
+                    console.error("存储失败:", error);
+                }
+            } else {
+                alert('请输入四位数字编号！');
+            }
+        }
+
+        // === 6️⃣ 读取 Firestore 数据 ===
+        async function loadCodes() {
+            const courierList = document.getElementById('courier-list');
+            const studentList = document.getElementById('student-list');
+
+            courierList.innerHTML = "<h3>外卖员编号：</h3>";
+            studentList.innerHTML = "<h3>学生编号：</h3>";
+
+            // 读取 外卖员 数据
+            const courierSnapshot = await getDocs(collection(db, "courier"));
+            courierSnapshot.forEach(doc => {
+                courierList.innerHTML += `<p>${doc.data().code}</p>`;
+            });
+
+            // 读取 学生 数据
+            const studentSnapshot = await getDocs(collection(db, "student"));
+            studentSnapshot.forEach(doc => {
+                studentList.innerHTML += `<p>${doc.data().code}</p>`;
+            });
+        }
+
+        // === 7️⃣ 页面加载时获取数据 ===
+        window.onload = loadCodes;
+    </script>
+
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 20px;
-        }
-        .container {
-            max-width: 400px;
-            margin: 0 auto;
-        }
-        button {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            font-size: 18px;
-            cursor: pointer;
-        }
-        input {
-            width: 100%;
-            padding: 10px;
-            font-size: 16px;
-            margin-bottom: 10px;
-            text-align: center;
-        }
-        .hidden {
-            display: none;
-        }
+        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+        .container { max-width: 400px; margin: 0 auto; }
+        button { display: block; width: 100%; padding: 10px; margin: 10px 0; font-size: 18px; cursor: pointer; }
+        input { width: 100%; padding: 10px; font-size: 16px; margin-bottom: 10px; text-align: center; }
+        .hidden { display: none; }
+        .data-section { text-align: left; margin-top: 20px; }
     </style>
 </head>
 <body>
@@ -52,30 +107,10 @@
             <button onclick="saveCode('student')">提交</button>
         </div>
 
-        <p id="message"></p>
+        <div class="data-section">
+            <div id="courier-list"></div>
+            <div id="student-list"></div>
+        </div>
     </div>
-
-    <script>
-        function chooseRole(role) {
-            document.getElementById('courier-section').classList.add('hidden');
-            document.getElementById('student-section').classList.add('hidden');
-
-            if (role === 'courier') {
-                document.getElementById('courier-section').classList.remove('hidden');
-            } else {
-                document.getElementById('student-section').classList.remove('hidden');
-            }
-        }
-
-        function saveCode(role) {
-            let code = role === 'courier' ? document.getElementById('courier-code').value : document.getElementById('student-code').value;
-            if (/^\d{4}$/.test(code)) {
-                localStorage.setItem(role, code);
-                document.getElementById('message').innerText = `您的编号 ${code} 已保存！`;
-            } else {
-                alert('请输入四位数字编号！');
-            }
-        }
-    </script>
 </body>
 </html>
