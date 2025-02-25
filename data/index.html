@@ -3,19 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>查看数据</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>数据查看</title>
+    <link rel="stylesheet" href="../styles.css">
 </head>
 <body>
     <div class="container">
-        <h1>数据库记录</h1>
-        <h2>外卖员数据</h2>
-        <ul id="courier-data"></ul>
-        <h2>学生数据</h2>
-        <ul id="student-data"></ul>
-        <a href="../" class="view-data">返回主页</a>
+        <h1>📊 数据库实时监控</h1>
+        
+        <section>
+            <h2>外卖员记录 <span id="courier-counter" class="counter">0 条记录</span></h2>
+            <ul id="courier-data"></ul>
+        </section>
+
+        <section>
+            <h2>学生记录 <span id="student-counter" class="counter">0 条记录</span></h2>
+            <ul id="student-data"></ul>
+        </section>
+
+        <a href="../" class="view-data">← 返回提交页面</a>
     </div>
 
-    <script src="script.js"></script>
+    <!-- 使用兼容版本SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <script src="../script.js"></script>
 </body>
 </html>
