@@ -3,28 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>智能外卖柜</title>
-    <script defer src="script.js"></script>
-    <link rel="stylesheet" href="style.css">
+    <title>身份选择</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>请选择您的身份</h1>
-    <button onclick="chooseRole('courier')">我是外卖员</button>
-    <button onclick="chooseRole('student')">我是学生</button>
+    <div class="container">
+        <h1>请选择您的身份</h1>
+        <div class="role-buttons">
+            <button class="role-btn" onclick="chooseRole('courier')">我是外卖员</button>
+            <button class="role-btn" onclick="chooseRole('student')">我是学生</button>
+        </div>
 
-    <div id="courier-section" style="display: none;">
-        <h2>外卖员，请输入您的编号</h2>
-        <input type="text" id="courier-code">
-        <button onclick="saveCode('courier')">提交</button>
+        <div id="courier-section" class="input-section hidden">
+            <h2>外卖员编号</h2>
+            <input type="text" id="courier-code" placeholder="请输入您的编号">
+            <button class="submit-btn" onclick="saveCode('courier')">提交</button>
+        </div>
+
+        <div id="student-section" class="input-section hidden">
+            <h2>学生编号</h2>
+            <input type="text" id="student-code" placeholder="请输入您的编号">
+            <button class="submit-btn" onclick="saveCode('student')">提交</button>
+        </div>
+
+        <a href="data/" class="view-data">📊 查看数据</a>
     </div>
 
-    <div id="student-section" style="display: none;">
-        <h2>学生，请输入您的编号</h2>
-        <input type="text" id="student-code">
-        <button onclick="saveCode('student')">提交</button>
-    </div>
-
-    <br>
-    <a href="data/">查看数据</a> <!-- 这里跳转到 /data/ 目录 -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

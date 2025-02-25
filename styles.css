@@ -1,4 +1,4 @@
-/* 🌟 全局布局，让内容完全居中 */
+/* 🌟 全局布局 */
 body {
     font-family: 'Arial', sans-serif;
     background: linear-gradient(to right, #74ebd5, #acb6e5);
@@ -9,14 +9,14 @@ body {
     margin: 0;
 }
 
-/* 📦 主要容器，调整大小让它更居中 */
+/* 📦 主要容器 */
 .container {
     background: white;
     padding: 40px;
     border-radius: 15px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     text-align: center;
-    width: 500px;  /* 让整体变大 */
+    width: 500px;
 }
 
 /* 🏷️ 标题 */
@@ -49,7 +49,7 @@ h1 {
     background: #0056b3;
 }
 
-/* 📥 输入框区域 */
+/* 📥 输入框 */
 .input-section {
     background: #f9f9f9;
     padding: 20px;
@@ -60,7 +60,6 @@ h1 {
 
 .input-section h2 {
     font-size: 20px;
-    margin-bottom: 10px;
     color: #555;
 }
 

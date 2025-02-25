@@ -1,4 +1,4 @@
-// Firebase 配置
+// 🔥 初始化 Firebase
 const firebaseConfig = {
     apiKey: "你的API密钥",
     authDomain: "你的项目ID.firebaseapp.com",
@@ -8,30 +8,39 @@ const firebaseConfig = {
     appId: "你的App ID"
 };
 
-// 初始化 Firebase
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-
-function chooseRole(role) {
-    document.getElementById('courier-section').style.display = (role === 'courier') ? 'block' : 'none';
-    document.getElementById('student-section').style.display = (role === 'student') ? 'block' : 'none';
+// 只有在 Firebase 没有初始化时才初始化
+if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
 }
 
+// 🔥 初始化 Firestore
+const db = firebase.firestore();
+
+// 选择角色，显示不同输入框
+function chooseRole(role) {
+    document.getElementById('courier-section').classList.toggle('hidden', role !== 'courier');
+    document.getElementById('student-section').classList.toggle('hidden', role !== 'student');
+}
+
+// 存储编号到 Firestore
 async function saveCode(role) {
+    if (!db) {
+        alert("数据库未正确初始化，请刷新页面！");
+        return;
+    }
+
     let inputField = document.getElementById(role + '-code');
     let code = inputField.value.trim();
 
-    if (/^\d{4}$/.test(code)) {  // 只允许4位数字
+    if (/^\d{4}$/.test(code)) {
         try {
             const docRef = await db.collection(role).add({
                 code: code,
                 timestamp: new Date()
             });
-            console.log("数据存入成功，ID:", docRef.id);
             alert("提交成功！");
-            inputField.value = ''; // 清空输入框
+            inputField.value = '';
         } catch (error) {
-            console.error("存储失败:", error);
             alert("存储失败：" + error.message);
         }
     } else {
