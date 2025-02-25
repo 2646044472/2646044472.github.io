@@ -1,12 +1,13 @@
 // 🔥 Firebase 配置
 const firebaseConfig = {
-    apiKey: "你的API密钥",
-    authDomain: "你的项目ID.firebaseapp.com",
-    projectId: "你的项目ID",
-    storageBucket: "你的项目ID.appspot.com",
-    messagingSenderId: "你的Sender ID",
-    appId: "你的App ID"
-};
+    apiKey: "AIzaSyCVB3quR4-fjIFzwNc83DZfECYTBpXhO8E",
+    authDomain: "utat-56b2e.firebaseapp.com",
+    projectId: "utat-56b2e",
+    storageBucket: "utat-56b2e.firebasestorage.app",
+    messagingSenderId: "559148636842",
+    appId: "1:559148636842:web:7da66e4a8d8fe6debc0ed3",
+    measurementId: "G-8DXJE6E2YL"
+  };
 
 // 🔥 只有在 Firebase 没有初始化时才初始化
 if (!firebase.apps.length) {
