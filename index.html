@@ -3,144 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>智能外卖柜 - 房号管理</title>
-
-    <!-- Firebase SDK -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
-
-        // === Firebase 配置 ===
-        const firebaseConfig = {
-            apiKey: "AIzaSyCVB3quR4-fjIFzwNc83DZfECYTBpXhO8E",
-            authDomain: "utat-56b2e.firebaseapp.com",
-            projectId: "utat-56b2e",
-            storageBucket: "utat-56b2e.firebasestorage.app",
-            messagingSenderId: "559148636842",
-            appId: "1:559148636842:web:7da66e4a8d8fe6debc0ed3",
-            measurementId: "G-8DXJE6E2YL"
-        };
-
-        // === 初始化 Firebase ===
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-
-        // === 处理身份选择 ===
-        function chooseRole(role) {
-            document.getElementById('courier-section').classList.add('hidden');
-            document.getElementById('student-section').classList.add('hidden');
-
-            if (role === 'courier') {
-                document.getElementById('courier-section').classList.remove('hidden');
-            } else {
-                document.getElementById('student-section').classList.remove('hidden');
-            }
-        }
-
-        // === 存储编号到 Firestore ===
-        async function saveCode(role) {
-            let inputField = role === 'courier' ? document.getElementById('courier-code') : document.getElementById('student-code');
-            let code = inputField.value.trim();
-
-            if (/^\d{4}$/.test(code)) {
-                try {
-                    await addDoc(collection(db, role), { code: code, timestamp: new Date() });
-                    inputField.value = ''; // 清空输入框
-                } catch (error) {
-                    console.error("存储失败:", error);
-                }
-            } else {
-                alert('请输入四位数字编号！');
-            }
-        }
-
-        // === 删除房号 ===
-        async function deleteCode(role, id) {
-            try {
-                await deleteDoc(doc(db, role, id));
-            } catch (error) {
-                console.error("删除失败:", error);
-            }
-        }
-
-        // === 编辑房号 ===
-        async function updateCode(role, id, newCode) {
-            if (/^\d{4}$/.test(newCode)) {
-                try {
-                    await updateDoc(doc(db, role, id), { code: newCode });
-                } catch (error) {
-                    console.error("更新失败:", error);
-                }
-            } else {
-                alert('请输入四位数字编号！');
-            }
-        }
-
-        // === 监听 Firestore 数据变化 ===
-        function listenForUpdates(role, targetElement) {
-            const listElement = document.getElementById(targetElement);
-            onSnapshot(collection(db, role), (snapshot) => {
-                listElement.innerHTML = `<h3>${role === 'courier' ? '外卖员' : '学生'} 编号：</h3>`;
-                snapshot.forEach(doc => {
-                    const data = doc.data();
-                    listElement.innerHTML += `
-                        <div class="code-item">
-                            <input type="text" value="${data.code}" id="edit-${role}-${doc.id}" maxlength="4">
-                            <button onclick="updateCode('${role}', '${doc.id}', document.getElementById('edit-${role}-${doc.id}').value)">修改</button>
-                            <button onclick="deleteCode('${role}', '${doc.id}')">删除</button>
-                        </div>
-                    `;
-                });
-            });
-        }
-
-        // === 页面加载时监听数据 ===
-        window.onload = function() {
-            listenForUpdates("courier", "courier-list");
-            listenForUpdates("student", "student-list");
-        };
-
-        // === 绑定到全局作用域，供 HTML 按钮调用 ===
-        window.chooseRole = chooseRole;
-        window.saveCode = saveCode;
-        window.deleteCode = deleteCode;
-        window.updateCode = updateCode;
-    </script>
-
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
-        .container { max-width: 400px; margin: 0 auto; }
-        button { display: block; width: 100%; padding: 10px; margin: 10px 0; font-size: 18px; cursor: pointer; }
-        input { width: 100%; padding: 10px; font-size: 16px; margin-bottom: 10px; text-align: center; }
-        .hidden { display: none; }
-        .data-section { text-align: left; margin-top: 20px; }
-        .code-item { display: flex; align-items: center; margin: 5px 0; }
-        .code-item input { flex-grow: 1; margin-right: 5px; text-align: center; }
-        .code-item button { margin-left: 5px; }
-    </style>
+    <title>Firestore 数据输入</title>
+    <script defer src="script.js"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>请选择您的身份</h1>
-        <button onclick="chooseRole('courier')">我是外卖员</button>
-        <button onclick="chooseRole('student')">我是学生</button>
+    <h1>请选择您的身份</h1>
+    <button onclick="chooseRole('courier')">我是外卖员</button>
+    <button onclick="chooseRole('student')">我是学生</button>
 
-        <div id="courier-section" class="hidden">
-            <h2>外卖员，请输入您的编号</h2>
-            <input type="text" id="courier-code" maxlength="4" placeholder="四位数编号">
-            <button onclick="saveCode('courier')">提交</button>
-        </div>
-
-        <div id="student-section" class="hidden">
-            <h2>学生，请输入您的编号</h2>
-            <input type="text" id="student-code" maxlength="4" placeholder="四位数编号">
-            <button onclick="saveCode('student')">提交</button>
-        </div>
-
-        <div class="data-section">
-            <div id="courier-list"></div>
-            <div id="student-list"></div>
-        </div>
+    <div id="courier-section" style="display: none;">
+        <h2>外卖员，请输入您的编号</h2>
+        <input type="text" id="courier-code">
+        <button onclick="saveCode('courier')">提交</button>
     </div>
+
+    <div id="student-section" style="display: none;">
+        <h2>学生，请输入您的编号</h2>
+        <input type="text" id="student-code">
+        <button onclick="saveCode('student')">提交</button>
+    </div>
+
+    <br>
+    <a href="data/">查看数据</a> <!-- 这里跳转到 /data/ 目录 -->
 </body>
 </html>
